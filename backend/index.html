@@ -3,43 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GhostWriter Guard API</title>
+<title>Verifio V2 API — Forensic AI Text Detection</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #030712; color: #f9fafb; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; }
-  .card { background: #111827; border: 1px solid #1f2937; border-radius: 20px; padding: 3rem; max-width: 480px; width: 100%; text-align: center; }
-  .logo { width: 56px; height: 56px; background: #10b981; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 22px; margin: 0 auto 1.5rem; }
-  h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
-  .sub { color: #6b7280; font-size: 14px; margin-bottom: 2rem; line-height: 1.6; }
-  .status { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; border: 1px solid #10b98133; color: #10b981; background: #10b98110; font-size: 12px; margin-bottom: 2rem; }
+  body { background: #ffffff; color: #111111; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; }
+  .card { background: #fafafa; border: 1px solid #e5e5e5; border-radius: 20px; padding: 2.5rem; max-width: 480px; width: 100%; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+  .logo { width: 52px; height: 52px; background: #FF6B00; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #ffffff; font-size: 24px; margin: 0 auto 1.25rem; }
+  h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; color: #000000; letter-spacing: -0.02em; }
+  .sub { color: #555555; font-size: 13.5px; margin-bottom: 1.5rem; line-height: 1.5; }
+  .author { font-size: 12px; color: #777777; margin-bottom: 1.5rem; }
+  .author strong { color: #111111; }
+  .status { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; border: 1px solid #d1fae5; color: #059669; background: #ecfdf5; font-size: 12px; font-weight: 600; margin-bottom: 1.75rem; }
   .dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; animation: pulse 1.5s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-  .links { display: flex; flex-direction: column; gap: 0.75rem; }
-  a { display: flex; align-items: center; justify-content: space-between; padding: 0.875rem 1.25rem; background: #1f2937; border: 1px solid #374151; border-radius: 12px; color: #e5e7eb; text-decoration: none; font-size: 14px; transition: all 0.2s; }
-  a:hover { border-color: #10b981; color: #10b981; background: #10b98110; }
-  .arrow { color: #6b7280; font-size: 16px; }
-  .divider { height: 1px; background: #1f2937; margin: 1.5rem 0; }
-  .stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; }
-  .stat { background: #0d1117; border: 1px solid #1f2937; border-radius: 10px; padding: 0.75rem; }
-  .stat-val { font-size: 1.1rem; font-weight: 700; color: #10b981; }
-  .stat-lbl { font-size: 11px; color: #6b7280; margin-top: 2px; }
-  footer { margin-top: 1.5rem; color: #374151; font-size: 12px; }
+  .stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; }
+  .stat { background: #ffffff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 0.75rem; }
+  .stat-val { font-size: 1.15rem; font-weight: 800; color: #FF6B00; }
+  .stat-lbl { font-size: 11px; color: #777777; margin-top: 2px; }
+  .links { display: flex; flex-direction: column; gap: 0.65rem; }
+  a { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 1.15rem; background: #ffffff; border: 1px solid #e5e5e5; border-radius: 10px; color: #111111; text-decoration: none; font-size: 13.5px; font-weight: 500; transition: all 0.2s; }
+  a:hover { border-color: #FF6B00; color: #FF6B00; background: #fffaf5; }
+  .arrow { color: #999999; font-size: 15px; }
+  footer { margin-top: 1.75rem; color: #888888; font-size: 12px; }
+  footer a { display: inline; padding: 0; background: transparent; border: none; color: #FF6B00; text-decoration: underline; }
 </style>
 </head>
 <body>
 <div class="card">
-  <div class="logo">G</div>
-  <h1>GhostWriter Guard API</h1>
-  <p class="sub">AI text detection for academic integrity.<br>Detects AI-written assignments sentence by sentence.</p>
-  <div class="status"><span class="dot"></span> API is running</div>
+  <div class="logo">V</div>
+  <h1>Verifio V2 API</h1>
+  <p class="sub">Advanced sentence-level AI text detection for academic integrity & content forensic verification.</p>
+  <p class="author">Built by <strong>Harsh Malviya</strong> · <a href="mailto:harshhmalviya09@gmail.com" style="display:inline;padding:0;background:none;border:none;color:#FF6B00;">harshhmalviya09@gmail.com</a></p>
+  
+  <div class="status"><span class="dot"></span> API is healthy and operational</div>
 
   <div class="stats">
     <div class="stat"><div class="stat-val">93.4%</div><div class="stat-lbl">Accuracy</div></div>
     <div class="stat"><div class="stat-val">8</div><div class="stat-lbl">Features</div></div>
-    <div class="stat"><div class="stat-val">1.3M+</div><div class="stat-lbl">Trained On</div></div>
+    <div class="stat"><div class="stat-val">3</div><div class="stat-lbl">Signals</div></div>
   </div>
-
-  <div class="divider"></div>
 
   <div class="links">
     <a href="/docs" target="_blank">
@@ -51,19 +53,15 @@
       <span class="arrow">→</span>
     </a>
     <a href="/health" target="_blank">
-      <span>💚 Health Check</span>
+      <span>💚 Health Status Endpoint</span>
       <span class="arrow">→</span>
     </a>
-    <a href="https://ghostwriter-guard-production.up.railway.app" target="_blank">
-      <span>🌐 Frontend App</span>
-      <span class="arrow">→</span>
-    </a>
-    <a href="https://github.com/AtharvaVavhal/ghostwriter-guard" target="_blank">
-      <span>🐙 GitHub Repository</span>
+    <a href="https://github.com/harshfly/Verifio-V2" target="_blank">
+      <span>🐙 GitHub Repository (harshfly/Verifio-V2)</span>
       <span class="arrow">→</span>
     </a>
   </div>
 </div>
-<footer>GhostWriter Guard · Built with FastAPI · Deployed on Railway</footer>
+<footer>Verifio V2 · Built by Harsh Malviya · Contact: <a href="mailto:harshhmalviya09@gmail.com">harshhmalviya09@gmail.com</a></footer>
 </body>
 </html>

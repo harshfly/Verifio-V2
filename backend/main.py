@@ -5,9 +5,14 @@ from routers import analyze
 import os
 
 app = FastAPI(
-    title="GhostWriter Guard API",
-    description="AI text detection for academic integrity. Detects AI-written assignments sentence by sentence.",
-    version="1.0.0",
+    title="Verifio V2 API",
+    description="State-of-the-art AI text detector & academic forensic content analyzer. Built by Harsh Malviya (harshhmalviya09@gmail.com).",
+    version="2.0.0",
+    contact={
+        "name": "Harsh Malviya",
+        "email": "harshhmalviya09@gmail.com",
+        "url": "https://github.com/harshfly/Verifio-V2",
+    },
 )
 
 app.add_middleware(
