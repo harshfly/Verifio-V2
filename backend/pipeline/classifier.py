@@ -56,7 +56,8 @@ def predict_score(text: str) -> float:
         return 0.5
     features = extract_features(text)
     prob = model.predict_proba(features)[0]
-    return float(prob[1])
+    # In this trained model, class 0 corresponds to AI and class 1 corresponds to Human
+    return float(prob[0])
 
 
 if __name__ == "__main__":

@@ -26,6 +26,9 @@ async def analyze_text(request: AnalyzeRequest):
     if not sentences:
         raise HTTPException(status_code=400, detail="Could not extract sentences.")
 
+    # Compute document-level burstiness across the entire text
+    doc_burstiness = compute_burstiness(text)
+
     results = []
     scores = []
 
@@ -35,7 +38,8 @@ async def analyze_text(request: AnalyzeRequest):
             score = 0.5
         else:
             perplexity = compute_perplexity(sentence)
-            burstiness = compute_burstiness(sentence)
+            # Document-level length variance gives true context; fallback to single-sentence for standalone lines
+            burstiness = doc_burstiness if len(sentences) > 1 else compute_burstiness(sentence)
             ml_score = predict_score(sentence)
             score = fuse_signals(perplexity, burstiness, ml_score)
 

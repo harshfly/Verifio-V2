@@ -5,7 +5,7 @@ WEIGHTS = {
 }
 
 PERPLEXITY_MIN = 10.0
-PERPLEXITY_MAX = 500.0
+PERPLEXITY_MAX = 100.0
 
 def normalize_perplexity(perplexity: float) -> float:
     clipped = min(max(perplexity, PERPLEXITY_MIN), PERPLEXITY_MAX)
