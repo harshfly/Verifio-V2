@@ -37,31 +37,13 @@ export default function Home() {
 
       {/* ── Navbar ──────────────────────────────────── */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-neutral-200/80">
-        <div className="max-w-[760px] mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        <div className="max-w-[760px] mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:gap-3">
             <img
               src="/logo.png?v=2"
               alt="Verifio Logo"
               className="h-8 sm:h-9 w-auto object-contain"
             />
-          </div>
-
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            <div className="hidden md:flex items-center gap-1.5 text-[11px] text-neutral-500 font-medium">
-              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-              Engine Online
-            </div>
-            <span className="text-[10px] sm:text-[11px] px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full font-semibold bg-orange-50 text-orange-600 border border-orange-200/80 whitespace-nowrap">
-              93.4% Accuracy
-            </span>
-            <a
-              href="http://localhost:8000/docs"
-              target="_blank"
-              rel="noreferrer"
-              className="text-[11px] sm:text-[12px] text-neutral-500 hover:text-black transition-colors px-1"
-            >
-              API Docs
-            </a>
           </div>
         </div>
       </header>
@@ -71,8 +53,10 @@ export default function Home() {
 
         {/* ── Hero ────────────────────────────────────── */}
         <section className="pt-8 sm:pt-14 pb-6 sm:pb-8">
-          <div className="inline-flex items-center gap-1.5 text-[11px] sm:text-[12px] font-bold text-orange-500 uppercase tracking-[0.16em] mb-2 sm:mb-3">
+          <div className="inline-flex items-center gap-2 text-[11px] sm:text-[12px] font-bold text-orange-500 uppercase tracking-[0.16em] mb-2 sm:mb-3">
             <span>AI Text Detection</span>
+            <span className="text-neutral-300 select-none">·</span>
+            <span className="text-neutral-600 font-semibold tracking-normal text-[11px] sm:text-[12px] normal-case bg-neutral-100 px-2 py-0.5 rounded-full">93.4% Test Accuracy</span>
           </div>
 
           <h1 className="text-[28px] xs:text-[34px] sm:text-[44px] md:text-[50px] font-extrabold text-black leading-[1.12] sm:leading-[1.08] tracking-[-0.035em] mb-3 sm:mb-4">

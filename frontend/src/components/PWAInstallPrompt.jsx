@@ -88,9 +88,9 @@ export default function PWAInstallPrompt() {
         <div className="bg-white/95 backdrop-blur-md border border-neutral-200/90 rounded-2xl p-3.5 shadow-xl shadow-black/10 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
             <img
-              src="/logo.png?v=2"
+              src="/app-icon.png"
               alt="Verifio App Icon"
-              className="w-10 h-10 rounded-xl object-contain bg-white border border-neutral-100 p-0.5 shadow-2xs shrink-0"
+              className="w-10 h-10 rounded-xl object-cover shadow-2xs shrink-0"
             />
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
@@ -143,7 +143,7 @@ export default function PWAInstallPrompt() {
           >
             <div className="flex items-center justify-between pb-2 border-b border-neutral-100">
               <div className="flex items-center gap-2.5">
-                <img src="/logo.png?v=2" alt="Verifio" className="w-7 h-7 object-contain" />
+                <img src="/app-icon.png" alt="Verifio App Icon" className="w-8 h-8 rounded-lg object-cover shrink-0" />
                 <h3 className="font-bold text-[15px] text-black">Install on iPhone / iPad</h3>
               </div>
               <button
