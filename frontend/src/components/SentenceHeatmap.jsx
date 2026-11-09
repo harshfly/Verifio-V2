@@ -1,91 +1,43 @@
 export default function SentenceHeatmap({ sentences }) {
   const getConfig = (score) => {
-    if (score < 0.35) return {
-      bg: "bg-emerald-500/10 hover:bg-emerald-500/15",
-      border: "border-emerald-500/25",
-      dot: "bg-emerald-400",
-      bar: "bg-emerald-500",
-      text: "text-emerald-400",
-      label: "Human",
-      badge: "bg-emerald-500/20 text-emerald-300"
-    };
-    if (score < 0.65) return {
-      bg: "bg-yellow-500/10 hover:bg-yellow-500/15",
-      border: "border-yellow-500/25",
-      dot: "bg-yellow-400",
-      bar: "bg-yellow-500",
-      text: "text-yellow-400",
-      label: "Uncertain",
-      badge: "bg-yellow-500/20 text-yellow-300"
-    };
-    return {
-      bg: "bg-red-500/10 hover:bg-red-500/15",
-      border: "border-red-500/25",
-      dot: "bg-red-400",
-      bar: "bg-red-500",
-      text: "text-red-400",
-      label: "AI",
-      badge: "bg-red-500/20 text-red-300"
-    };
+    if (score < 0.35) return { bar: "bg-green-500", text: "text-green-600", label: "Human" };
+    if (score < 0.65) return { bar: "bg-orange-400", text: "text-orange-600", label: "Uncertain" };
+    return { bar: "bg-red-500", text: "text-red-600", label: "AI" };
   };
 
-  const copyToClipboard = (text) => navigator.clipboard.writeText(text);
-
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-widest">
-          Sentence Analysis
-        </h3>
-        <span className="text-xs text-gray-600">{sentences.length} sentences</span>
-      </div>
-
+    <div className="space-y-0 divide-y divide-neutral-100">
       {sentences.map((item, idx) => {
         const config = getConfig(item.score);
         const percent = Math.round(item.score * 100);
+
         return (
           <div
             key={idx}
-            className={`group p-4 rounded-xl border ${config.bg} ${config.border} transition-all duration-200`}
+            className={`group flex gap-3 py-3 first:pt-0 last:pb-0 animate-fade-up stagger-${Math.min(idx + 1, 8)}`}
           >
-            <div className="flex items-start gap-3">
-              {/* Index + dot */}
-              <div className="flex flex-col items-center gap-1.5 pt-0.5 shrink-0">
-                <span className="text-xs text-gray-600 w-5 text-center">{idx + 1}</span>
-                <div className={`w-1.5 h-1.5 rounded-full ${config.dot}`} />
+            {/* Left: color indicator */}
+            <div className="flex flex-col items-center pt-1 shrink-0 w-5">
+              <span className="text-[10px] tabular-nums text-neutral-400">{idx + 1}</span>
+              <div className={`w-[3px] h-[3px] rounded-full mt-1 ${config.bar}`} />
+            </div>
+
+            {/* Center: sentence text */}
+            <p className="flex-1 text-[13px] leading-relaxed text-neutral-700 min-w-0">
+              {item.sentence}
+            </p>
+
+            {/* Right: score */}
+            <div className="shrink-0 flex items-baseline gap-2 pt-0.5">
+              <div className="w-12 bg-neutral-100 rounded-full h-[3px] overflow-hidden hidden sm:block mt-2">
+                <div
+                  className={`h-full rounded-full ${config.bar} transition-all duration-500`}
+                  style={{ width: `${percent}%` }}
+                />
               </div>
-
-              {/* Content */}
-              <div className="flex-1 min-w-0">
-                <p className="text-sm leading-relaxed text-gray-200 mb-3">{item.sentence}</p>
-
-                {/* Confidence bar */}
-                <div className="flex items-center gap-3">
-                  <div className="flex-1 bg-gray-800/80 rounded-full h-1.5 overflow-hidden">
-                    <div
-                      className={`h-full rounded-full ${config.bar} transition-all duration-700`}
-                      style={{ width: `${percent}%` }}
-                    />
-                  </div>
-                  <span className={`text-xs font-bold ${config.text} shrink-0`}>
-                    {percent}%
-                  </span>
-                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium shrink-0 ${config.badge}`}>
-                    {config.label}
-                  </span>
-                </div>
-              </div>
-
-              {/* Copy button */}
-              <button
-                onClick={() => copyToClipboard(item.sentence)}
-                className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded-lg hover:bg-gray-700 text-gray-500 hover:text-gray-300 shrink-0"
-                title="Copy"
-              >
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-              </button>
+              <span className={`text-[12px] font-semibold tabular-nums ${config.text} w-8 text-right`}>
+                {percent}%
+              </span>
             </div>
           </div>
         );
