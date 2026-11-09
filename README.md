@@ -1,31 +1,20 @@
-# 👻 GhostWriter Guard
+# 🛡️ Verifio V2
 
-> AI text detection for academic integrity — detects AI-written assignments sentence by sentence.
+> Advanced AI text detection for academic integrity — detects AI-written assignments sentence by sentence.
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.135-green)
 ![React](https://img.shields.io/badge/React-18-blue)
 ![Accuracy](https://img.shields.io/badge/Accuracy-93.4%25-brightgreen)
-![Deployed](https://img.shields.io/badge/Deployed-Railway-blueviolet)
-
----
-
-## 🌐 Live Demo
-
-**Frontend:** https://ghostwriter-guard-production.up.railway.app
-
-**Backend API:** https://caring-charm-production-41d0.up.railway.app
-
-**API Docs:** https://caring-charm-production-41d0.up.railway.app/docs
 
 ---
 
 ## 🎯 What It Does
 
-GhostWriter Guard analyzes submitted text and flags AI-written content at the sentence level:
+Verifio analyzes submitted text and flags AI-written content at the sentence level:
 
 - 🟢 **Green** = Human written (0–35%)
-- 🟡 **Yellow** = Uncertain (35–65%)
+- 🟠 **Orange** = Uncertain (35–65%)
 - 🔴 **Red** = AI written (65–100%)
 
 ---
