@@ -99,12 +99,12 @@ export default function DownloadReport({ result }) {
   return (
     <button
       onClick={handleDownload}
-      className="inline-flex items-center gap-1.5 text-[12px] text-neutral-400 hover:text-neutral-600 transition-colors px-3 py-1.5 rounded-md border border-neutral-150 hover:border-neutral-300"
+      className="inline-flex items-center gap-1.5 text-[11px] sm:text-[12px] text-neutral-700 hover:text-black transition-colors px-2.5 sm:px-3 py-1.5 rounded-lg border border-neutral-200/90 hover:border-neutral-400 bg-white shadow-2xs cursor-pointer font-medium"
     >
-      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+      <svg className="w-3.5 h-3.5 text-neutral-500" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
       </svg>
-      Export PDF
+      <span>Export PDF</span>
     </button>
   );
 }
