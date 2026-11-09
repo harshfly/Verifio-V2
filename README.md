@@ -213,13 +213,3 @@ npm run dev
 | Deployment | Railway |
 
 ---
-
-## 🔗 Links
-
-- 🐙 GitHub: [AtharvaVavhal/ghostwriter-guard](https://github.com/AtharvaVavhal/ghostwriter-guard)
-- 🌐 Live: [ghostwriter-guard-production.up.railway.app](https://ghostwriter-guard-production.up.railway.app)
-- 💼 LinkedIn: [Project Post](https://www.linkedin.com/posts/atharva-vavhal_machinelearning-ai-python-activity-7439914236039958528-1sf7)
-
----
-
-*Built with ❤️ by Team GhostWriter Guard*
