@@ -45,13 +45,13 @@ export default function Home() {
 
       {/* ── Navbar ──────────────────────────────────── */}
       <header className="sticky top-0 z-50 bg-white/75 backdrop-blur-md border-b border-neutral-200/50">
-        <div className="max-w-[960px] mx-auto px-3.5 sm:px-6 h-14 sm:h-16 md:h-20 flex items-center justify-between gap-3">
+        <div className="max-w-[960px] mx-auto px-3.5 sm:px-6 h-16 sm:h-18 md:h-20 flex items-center justify-between gap-3">
           {/* Brand Logo */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <img
               src="/logo.png?v=2"
               alt="Verifio Logo"
-              className="h-7 sm:h-8 md:h-9 w-auto object-contain cursor-pointer"
+              className="h-8 sm:h-9 md:h-10 w-auto object-contain cursor-pointer"
               onClick={() => {
                 setResult(null);
                 setError(null);
@@ -61,11 +61,11 @@ export default function Home() {
           </div>
 
           {/* Center Capsule Navigation (desktop only) */}
-          <nav className="hidden md:flex items-center gap-1 bg-white/90 border border-neutral-200/80 p-1 rounded-full shadow-2xs">
+          <nav className="hidden md:flex items-center gap-1.5 bg-white/90 border border-neutral-200/80 p-1.5 rounded-full shadow-2xs">
             <button
               type="button"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="px-3.5 py-1 text-xs font-semibold rounded-full bg-orange-100 text-orange-700 transition-colors"
+              className="px-4 py-1.5 text-[13px] sm:text-[14px] font-semibold rounded-full bg-orange-100/90 text-orange-700 shadow-2xs transition-colors cursor-pointer"
             >
               Home
             </button>
@@ -75,7 +75,7 @@ export default function Home() {
                 const el = document.getElementById("how-it-works");
                 if (el) el.scrollIntoView({ behavior: "smooth" });
               }}
-              className="px-3.5 py-1 text-xs font-medium text-neutral-600 hover:text-black transition-colors cursor-pointer"
+              className="px-3.5 py-1.5 text-[13px] sm:text-[14px] font-medium text-neutral-600 hover:text-black transition-colors cursor-pointer"
             >
               How it Works
             </button>
@@ -85,14 +85,14 @@ export default function Home() {
                 const el = document.getElementById("how-it-works");
                 if (el) el.scrollIntoView({ behavior: "smooth" });
               }}
-              className="px-3.5 py-1 text-xs font-medium text-neutral-600 hover:text-black transition-colors cursor-pointer"
+              className="px-3.5 py-1.5 text-[13px] sm:text-[14px] font-medium text-neutral-600 hover:text-black transition-colors cursor-pointer"
             >
               Features
             </button>
             <button
               type="button"
               onClick={() => setPricingOpen(true)}
-              className="px-3.5 py-1 text-xs font-medium text-neutral-600 hover:text-black transition-colors cursor-pointer"
+              className="px-3.5 py-1.5 text-[13px] sm:text-[14px] font-medium text-neutral-600 hover:text-black transition-colors cursor-pointer"
             >
               Pricing
             </button>
@@ -109,10 +109,10 @@ export default function Home() {
                   el.scrollIntoView({ behavior: "smooth", block: "center" });
                 }
               }}
-              className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-white px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-xs shadow-orange-400/30 transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 text-[12.5px] sm:text-[14px] font-semibold text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-sm shadow-orange-500/25 transition-all cursor-pointer"
             >
               <span>Get Started</span>
-              <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
               </svg>
             </button>
