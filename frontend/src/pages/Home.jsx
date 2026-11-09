@@ -12,7 +12,6 @@ export default function Home() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [pricingOpen, setPricingOpen] = useState(false);
-  const [authOpen, setAuthOpen] = useState(false);
   const resultsRef = useRef(null);
 
   const handleSubmit = async (text) => {
@@ -101,13 +100,6 @@ export default function Home() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            <button
-              type="button"
-              onClick={() => setAuthOpen(true)}
-              className="hidden xs:inline-flex text-xs font-medium text-neutral-700 hover:text-black px-3.5 sm:px-4 py-1.5 rounded-full border border-neutral-200/90 hover:border-neutral-300 bg-white/80 shadow-2xs transition-all cursor-pointer"
-            >
-              Log In
-            </button>
             <button
               type="button"
               onClick={() => {
@@ -359,29 +351,6 @@ export default function Home() {
               className="w-full py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl text-xs sm:text-sm transition-colors cursor-pointer"
             >
               Start Scanning Now
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* ── Interactive Auth Modal ──────────────────── */}
-      {authOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3.5 sm:p-4 bg-black/40 backdrop-blur-xs animate-fade-in">
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 max-w-xs sm:max-w-sm w-full shadow-2xl border border-neutral-200 text-center space-y-3.5 sm:space-y-4">
-            <div className="w-11 h-11 sm:w-12 sm:h-12 mx-auto rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center">
-              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-              </svg>
-            </div>
-            <h2 className="text-lg sm:text-xl font-extrabold text-black">Instant Anonymous Access</h2>
-            <p className="text-xs text-neutral-600 leading-relaxed">
-              Verifio V2 does not require an account or login. Your text and PDFs are processed in real-time and never saved to a database.
-            </p>
-            <button
-              onClick={() => setAuthOpen(false)}
-              className="w-full py-2.5 bg-neutral-900 hover:bg-black text-white font-semibold rounded-xl text-xs transition-colors cursor-pointer"
-            >
-              Continue to Scanner
             </button>
           </div>
         </div>
