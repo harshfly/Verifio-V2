@@ -1,9 +1,8 @@
 import { useRef } from "react";
 import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 import { scoreToLabel } from "../utils/colorScale";
 
-export default function DownloadReport({ result, targetRef }) {
+export default function DownloadReport({ result }) {
   const generating = useRef(false);
 
   const handleDownload = async () => {
@@ -15,173 +14,97 @@ export default function DownloadReport({ result, targetRef }) {
     const margin = 15;
     let y = 20;
 
-    // ── Header ──────────────────────────────────────────────
-    pdf.setFillColor(17, 24, 39);
-    pdf.rect(0, 0, pageWidth, 35, "F");
-
+    // Header
+    pdf.setFillColor(17, 17, 17);
+    pdf.rect(0, 0, pageWidth, 30, "F");
     pdf.setTextColor(255, 255, 255);
-    pdf.setFontSize(20);
+    pdf.setFontSize(16);
     pdf.setFont("helvetica", "bold");
-    pdf.text("GhostWriter Guard", margin, 15);
-
-    pdf.setFontSize(9);
-    pdf.setFont("helvetica", "normal");
-    pdf.setTextColor(156, 163, 175);
-    pdf.text("AI Text Detection Report", margin, 22);
-    pdf.text(`Generated: ${new Date().toLocaleString()}`, margin, 28);
-
-    y = 45;
-
-    // ── Overall Score ────────────────────────────────────────
-    const percent = Math.round(result.overall_score * 100);
-    const label = scoreToLabel(result.overall_score);
-
-    // Score box
-    const scoreColor = result.overall_score < 0.35
-      ? [16, 185, 129]
-      : result.overall_score < 0.65
-      ? [234, 179, 8]
-      : [239, 68, 68];
-
-    pdf.setFillColor(...scoreColor);
-    pdf.roundedRect(margin, y, 50, 25, 3, 3, "F");
-
-    pdf.setTextColor(255, 255, 255);
-    pdf.setFontSize(22);
-    pdf.setFont("helvetica", "bold");
-    pdf.text(`${percent}%`, margin + 10, y + 14);
-
-    pdf.setFontSize(9);
-    pdf.setFont("helvetica", "normal");
-    pdf.text("AI Probability", margin + 10, y + 21);
-
-    // Label box
-    pdf.setFillColor(31, 41, 55);
-    pdf.roundedRect(margin + 55, y, 50, 25, 3, 3, "F");
-    pdf.setTextColor(...scoreColor);
-    pdf.setFontSize(14);
-    pdf.setFont("helvetica", "bold");
-    pdf.text(label, margin + 65, y + 12);
+    pdf.text("Verifio", margin, 14);
     pdf.setFontSize(8);
     pdf.setFont("helvetica", "normal");
-    pdf.setTextColor(156, 163, 175);
-    pdf.text("Verdict", margin + 65, y + 19);
+    pdf.setTextColor(160, 160, 160);
+    pdf.text(`AI Text Detection Report · ${new Date().toLocaleDateString()}`, margin, 22);
+    y = 40;
 
-    // Stats boxes
-    const stats = [
-      { label: "Sentences", value: result.sentences.length, color: [255, 255, 255] },
-      { label: "AI Flagged", value: result.sentences.filter(s => s.score >= 0.65).length, color: [239, 68, 68] },
-      { label: "Human", value: result.sentences.filter(s => s.score < 0.35).length, color: [16, 185, 129] },
-    ];
+    // Overall score
+    const percent = Math.round(result.overall_score * 100);
+    const label = scoreToLabel(result.overall_score);
+    pdf.setTextColor(17, 17, 17);
+    pdf.setFontSize(32);
+    pdf.setFont("helvetica", "bold");
+    pdf.text(`${percent}%`, margin, y + 5);
+    pdf.setFontSize(10);
+    pdf.setTextColor(120, 120, 120);
+    pdf.text(`${label} · ${result.sentences.length} sentences analyzed`, margin + 30, y + 5);
+    y += 18;
 
-    stats.forEach((stat, i) => {
-      const x = margin + 115 + i * 27;
-      pdf.setFillColor(31, 41, 55);
-      pdf.roundedRect(x, y, 24, 25, 3, 3, "F");
-      pdf.setTextColor(...stat.color);
-      pdf.setFontSize(14);
-      pdf.setFont("helvetica", "bold");
-      pdf.text(String(stat.value), x + 7, y + 12);
-      pdf.setFontSize(7);
-      pdf.setFont("helvetica", "normal");
-      pdf.setTextColor(156, 163, 175);
-      pdf.text(stat.label, x + 2, y + 20);
-    });
-
-    y += 35;
-
-    // ── Divider ──────────────────────────────────────────────
-    pdf.setDrawColor(55, 65, 81);
+    // Divider
+    pdf.setDrawColor(230, 230, 230);
     pdf.line(margin, y, pageWidth - margin, y);
     y += 8;
 
-    // ── Sentence Analysis ─────────────────────────────────────
-    pdf.setTextColor(156, 163, 175);
-    pdf.setFontSize(8);
+    // Sentences
+    pdf.setTextColor(120, 120, 120);
+    pdf.setFontSize(7);
     pdf.setFont("helvetica", "bold");
     pdf.text("SENTENCE ANALYSIS", margin, y);
     y += 6;
 
     result.sentences.forEach((item, idx) => {
+      if (y > 270) { pdf.addPage(); y = 20; }
+
       const sentPercent = Math.round(item.score * 100);
-      const sentLabel = scoreToLabel(item.score);
-      const color = item.score < 0.35
-        ? [16, 185, 129]
-        : item.score < 0.65
-        ? [234, 179, 8]
-        : [239, 68, 68];
+      const color = item.score < 0.35 ? [5, 150, 105] : item.score < 0.65 ? [217, 119, 6] : [220, 38, 38];
 
-      // Check page overflow
-      if (y > 270) {
-        pdf.addPage();
-        y = 20;
-      }
-
-      // Row background
-      pdf.setFillColor(31, 41, 55);
-      pdf.roundedRect(margin, y, pageWidth - margin * 2, 16, 2, 2, "F");
-
-      // Color dot
+      // Color bar
       pdf.setFillColor(...color);
-      pdf.circle(margin + 4, y + 8, 2, "F");
+      pdf.rect(margin, y, 1.5, 12, "F");
 
-      // Sentence number
-      pdf.setTextColor(107, 114, 128);
+      // Number
+      pdf.setTextColor(180, 180, 180);
       pdf.setFontSize(7);
       pdf.setFont("helvetica", "normal");
-      pdf.text(`${idx + 1}.`, margin + 8, y + 9);
+      pdf.text(`${idx + 1}`, margin + 4, y + 5);
 
-      // Sentence text (truncated)
-      const maxWidth = pageWidth - margin * 2 - 40;
-      const truncated = item.sentence.length > 120
-        ? item.sentence.substring(0, 120) + "..."
-        : item.sentence;
-
-      pdf.setTextColor(229, 231, 235);
+      // Text
+      const truncated = item.sentence.length > 130 ? item.sentence.substring(0, 130) + "…" : item.sentence;
+      pdf.setTextColor(60, 60, 60);
       pdf.setFontSize(7.5);
-      pdf.text(truncated, margin + 14, y + 9, { maxWidth: maxWidth - 14 });
+      pdf.text(truncated, margin + 10, y + 5, { maxWidth: pageWidth - margin * 2 - 30 });
 
-      // Score badge
-      pdf.setFillColor(...color);
-      pdf.roundedRect(pageWidth - margin - 22, y + 3, 20, 10, 2, 2, "F");
-      pdf.setTextColor(0, 0, 0);
-      pdf.setFontSize(7);
+      // Score
+      pdf.setTextColor(...color);
       pdf.setFont("helvetica", "bold");
-      pdf.text(`${sentPercent}% ${sentLabel}`, pageWidth - margin - 21, y + 10);
+      pdf.setFontSize(7.5);
+      pdf.text(`${sentPercent}%`, pageWidth - margin - 8, y + 5);
 
-      y += 19;
+      y += 15;
     });
 
-    y += 5;
-
-    // ── Footer ────────────────────────────────────────────────
-    if (y > 265) {
-      pdf.addPage();
-      y = 20;
-    }
-    pdf.setDrawColor(55, 65, 81);
+    // Footer
+    if (y > 270) { pdf.addPage(); y = 20; }
+    pdf.setDrawColor(230, 230, 230);
     pdf.line(margin, y, pageWidth - margin, y);
     y += 5;
-    pdf.setTextColor(107, 114, 128);
+    pdf.setTextColor(180, 180, 180);
     pdf.setFontSize(7);
     pdf.setFont("helvetica", "normal");
-    pdf.text("GhostWriter Guard — AI Text Detection for Academic Integrity", margin, y);
-    pdf.text(`Model Accuracy: 95.75% | 3-Signal Pipeline: GPT-2 Perplexity + Burstiness + ML Classifier`, margin, y + 4);
+    pdf.text("Verifio · 93.4% accuracy · 3-signal ML pipeline", margin, y);
 
-    pdf.save(`ghostwriter-report-${Date.now()}.pdf`);
+    pdf.save(`verifio-report-${Date.now()}.pdf`);
     generating.current = false;
   };
 
   return (
     <button
       onClick={handleDownload}
-      className="flex items-center gap-2 px-5 py-2.5 bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-gray-500 text-gray-200 text-sm font-medium rounded-lg transition-all duration-200"
+      className="inline-flex items-center gap-1.5 text-[12px] text-neutral-400 hover:text-neutral-600 transition-colors px-3 py-1.5 rounded-md border border-neutral-150 hover:border-neutral-300"
     >
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-          d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
       </svg>
-      Download PDF Report
+      Export PDF
     </button>
   );
 }
