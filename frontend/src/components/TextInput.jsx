@@ -2,15 +2,15 @@ import { useState, useRef } from "react";
 
 const SAMPLES = [
   {
-    label: "AI sample",
+    label: "AI Sample",
     text: "The implementation of advanced machine learning algorithms has consequently revolutionized numerous sectors of modern industry. Furthermore, the integration of natural language processing technologies has subsequently enabled organizations to streamline their operational workflows with remarkable efficiency. Additionally, the systematic deployment of predictive analytics models has thereby facilitated more informed decision-making processes across diverse organizational hierarchies."
   },
   {
-    label: "Human sample",
+    label: "Human Sample",
     text: "I honestly wasn't sure what to write for this assignment at first. The topic seemed kinda boring when I read it, but then I started looking into it and actually found some really interesting stuff. My roommate thought I was crazy staying up until 2am reading about it, but I couldn't stop. I think that's the thing about research — you never know what you'll find."
   },
   {
-    label: "Mixed sample",
+    label: "Mixed Sample",
     text: "I was honestly surprised by the results. The implementation of advanced neural network architectures has consequently enabled unprecedented improvements in diagnostic accuracy. My friend told me about it last week, and I couldn't believe it at first. Furthermore, the systematic integration of machine learning frameworks has subsequently facilitated more efficient data processing workflows."
   }
 ];
@@ -98,10 +98,10 @@ export default function TextInput({ onSubmit, loading }) {
 
   return (
     <div
-      className={`rounded-2xl border transition-all duration-200 bg-white shadow-sm overflow-hidden ${
+      className={`rounded-2xl border transition-all duration-200 bg-white shadow-xs overflow-hidden ${
         dragOver
-          ? "border-orange-500 ring-4 ring-orange-100/80 shadow-lg"
-          : "border-neutral-200 hover:border-neutral-300"
+          ? "border-orange-500 ring-4 ring-orange-100/80 shadow-md"
+          : "border-neutral-200/90 hover:border-neutral-300"
       }`}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
@@ -115,15 +115,15 @@ export default function TextInput({ onSubmit, loading }) {
         onChange={handlePDFUpload}
       />
 
-      {/* ── Top Toolbar ─────────────────────────────────────────── */}
-      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 bg-neutral-50/90 border-b border-neutral-200">
-        <div className="flex flex-wrap items-center gap-2.5">
-          {/* Engaging Upload PDF Button */}
+      {/* ── Top Responsive Toolbar ─────────────────────────────── */}
+      <div className="flex items-center justify-between gap-2 px-3 sm:px-4 py-2.5 bg-neutral-50/80 border-b border-neutral-200/80 overflow-x-auto">
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          {/* Prominent Upload PDF Button */}
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={loading || pdfLoading}
-            className="group relative inline-flex items-center gap-2 px-3.5 py-1.5 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-[13px] font-semibold rounded-lg shadow-sm shadow-orange-300/40 hover:shadow transition-all disabled:opacity-60 cursor-pointer"
+            className="group relative inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-[12px] sm:text-[13px] font-semibold rounded-lg shadow-2xs shadow-orange-300/40 hover:shadow-xs transition-all disabled:opacity-60 cursor-pointer shrink-0"
           >
             {pdfLoading ? (
               <>
@@ -131,12 +131,12 @@ export default function TextInput({ onSubmit, loading }) {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                <span>Extracting PDF...</span>
+                <span>Extracting...</span>
               </>
             ) : (
               <>
                 <svg
-                  className="w-4 h-4 transition-transform group-hover:-translate-y-0.5"
+                  className="w-3.5 sm:w-4 h-3.5 sm:h-4 transition-transform group-hover:-translate-y-0.5"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth={2}
@@ -149,18 +149,17 @@ export default function TextInput({ onSubmit, loading }) {
                   />
                 </svg>
                 <span>Upload PDF</span>
-                <span className="hidden sm:inline-block text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 bg-orange-600/70 text-orange-100 rounded">
+                <span className="hidden xs:inline-block text-[9px] uppercase font-bold tracking-wider px-1 py-0.5 bg-orange-600/70 text-orange-100 rounded">
                   Fast
                 </span>
               </>
             )}
           </button>
 
-          {/* Dot Separator */}
-          <span className="text-neutral-300 font-bold select-none">·</span>
+          <span className="text-neutral-300 font-bold select-none text-xs">·</span>
 
-          {/* Samples */}
-          <div className="flex items-center gap-1">
+          {/* Quick Samples (swipeable on mobile) */}
+          <div className="flex items-center gap-1 shrink-0">
             {SAMPLES.map((s) => (
               <button
                 key={s.label}
@@ -171,7 +170,7 @@ export default function TextInput({ onSubmit, loading }) {
                   setPageCount(null);
                 }}
                 disabled={loading}
-                className="text-[12px] font-medium text-neutral-600 hover:text-orange-600 hover:bg-orange-50 px-2 py-1 rounded-md transition-colors"
+                className="text-[11px] sm:text-[12px] font-medium text-neutral-600 hover:text-orange-600 hover:bg-orange-50 px-2 py-1 rounded-md transition-colors whitespace-nowrap"
               >
                 {s.label}
               </button>
@@ -179,41 +178,41 @@ export default function TextInput({ onSubmit, loading }) {
           </div>
         </div>
 
-        {/* Status / Hint */}
-        <div className="flex items-center gap-2 text-[11px] text-neutral-400">
-          <span className="hidden md:inline">Drag & drop PDF anywhere</span>
+        {/* Drag Hint (hidden on touch screens) */}
+        <div className="hidden lg:flex items-center text-[11px] text-neutral-400 shrink-0">
+          <span>Drop PDF anywhere</span>
         </div>
       </div>
 
-      {/* ── Active PDF Banner (if loaded) ────────────────────── */}
+      {/* ── Active PDF Banner ─────────────────────────────────── */}
       {fileName && (
-        <div className="flex items-center justify-between px-4 py-2 bg-orange-50/80 border-b border-orange-100 text-orange-950 text-[12px] animate-fade-in">
-          <div className="flex items-center gap-2 font-medium">
-            <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-            <svg className="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+        <div className="flex items-center justify-between gap-2 px-3 sm:px-4 py-2 bg-orange-50/80 border-b border-orange-100 text-orange-950 text-[11px] sm:text-[12px] animate-fade-in">
+          <div className="flex items-center gap-1.5 sm:gap-2 font-medium min-w-0">
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse shrink-0" />
+            <svg className="w-3.5 h-3.5 text-orange-600 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-            <span className="truncate max-w-[280px] sm:max-w-md font-semibold text-neutral-900">{fileName}</span>
+            <span className="truncate font-semibold text-neutral-900">{fileName}</span>
             {pageCount && (
-              <span className="text-orange-700 text-[11px]">
-                ({pageCount} {pageCount === 1 ? "page" : "pages"} extracted)
+              <span className="text-orange-700 text-[10px] sm:text-[11px] shrink-0">
+                ({pageCount}p)
               </span>
             )}
           </div>
           <button
             type="button"
             onClick={clearAll}
-            className="text-orange-700 hover:text-black hover:bg-orange-100 px-2 py-0.5 rounded transition-colors"
+            className="text-orange-700 hover:text-black hover:bg-orange-100 px-2 py-0.5 rounded transition-colors shrink-0 text-[11px]"
           >
-            Remove file
+            Remove
           </button>
         </div>
       )}
 
-      {/* ── Textarea Area ───────────────────────────────────────── */}
+      {/* ── Textarea Area ─────────────────────────────────────── */}
       <div className="relative">
         <textarea
-          className="w-full h-[190px] p-4 bg-transparent text-neutral-900 text-[14px] leading-relaxed placeholder:text-neutral-400 focus:outline-none resize-none transition-colors"
+          className="w-full h-[170px] sm:h-[190px] p-3.5 sm:p-4 bg-transparent text-neutral-900 text-[16px] sm:text-[14px] leading-relaxed placeholder:text-neutral-400 focus:outline-none resize-none transition-colors"
           placeholder="Paste assignment or paper text here, or drop a PDF directly into this box..."
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -224,24 +223,23 @@ export default function TextInput({ onSubmit, loading }) {
 
         {/* Drag Overlay visual */}
         {dragOver && (
-          <div className="absolute inset-0 bg-white/95 backdrop-blur-xs flex flex-col items-center justify-center pointer-events-none border-2 border-dashed border-orange-500 m-2 rounded-xl">
-            <div className="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mb-2">
+          <div className="absolute inset-0 bg-white/95 flex flex-col items-center justify-center pointer-events-none border-2 border-dashed border-orange-500 m-2 rounded-xl">
+            <div className="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mb-1.5">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13" />
               </svg>
             </div>
-            <p className="text-neutral-900 font-semibold text-[14px]">Drop your PDF to extract text</p>
-            <p className="text-neutral-500 text-[12px] mt-0.5">We process assignments and papers locally</p>
+            <p className="text-neutral-900 font-semibold text-[13px] sm:text-[14px]">Drop PDF to extract text</p>
           </div>
         )}
 
-        {/* Clear Button inside text area */}
+        {/* Clear Button */}
         {text && !dragOver && (
           <button
             type="button"
             onClick={clearAll}
             title="Clear all text"
-            className="absolute top-3 right-3 w-6 h-6 flex items-center justify-center rounded-md text-neutral-400 hover:text-neutral-800 hover:bg-neutral-100 transition-all"
+            className="absolute top-2.5 right-2.5 w-6 h-6 flex items-center justify-center rounded-md text-neutral-400 hover:text-neutral-800 hover:bg-neutral-100 transition-all"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -250,19 +248,19 @@ export default function TextInput({ onSubmit, loading }) {
         )}
       </div>
 
-      {/* ── Bottom Bar ─────────────────────────────────────────── */}
-      <div className="flex items-center justify-between px-4 py-3 bg-neutral-50/50 border-t border-neutral-150">
-        <div className="flex items-center gap-3 text-[12px] text-neutral-500 tabular-nums">
+      {/* ── Bottom Responsive Bar ─────────────────────────────── */}
+      <div className="flex items-center justify-between gap-3 px-3.5 sm:px-4 py-2.5 sm:py-3 bg-neutral-50/50 border-t border-neutral-150">
+        <div className="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-[12px] text-neutral-500 tabular-nums">
           <span>{wordCount} {wordCount === 1 ? "word" : "words"}</span>
           <span className="text-neutral-300">·</span>
-          <span>{charCount} characters</span>
+          <span>{charCount} chars</span>
         </div>
 
         <button
           type="button"
           onClick={handleSubmit}
           disabled={loading || pdfLoading || text.trim().length < 10}
-          className="inline-flex items-center gap-2 px-5 py-2 bg-neutral-900 hover:bg-black active:bg-neutral-950 text-white text-[13px] font-semibold rounded-lg shadow-sm transition-all disabled:bg-neutral-200 disabled:text-neutral-400 disabled:cursor-not-allowed"
+          className="inline-flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2 bg-neutral-900 hover:bg-black active:bg-neutral-950 text-white text-[12px] sm:text-[13px] font-semibold rounded-lg shadow-2xs transition-all disabled:bg-neutral-200 disabled:text-neutral-400 disabled:cursor-not-allowed cursor-pointer"
         >
           {loading ? (
             <>
@@ -275,7 +273,7 @@ export default function TextInput({ onSubmit, loading }) {
           ) : (
             <>
               <span>Analyze Text</span>
-              <span className="text-[10px] text-neutral-400 font-mono bg-neutral-800 px-1.5 py-0.5 rounded">
+              <span className="hidden sm:inline-block text-[9px] text-neutral-400 font-mono bg-neutral-800 px-1.5 py-0.5 rounded">
                 ⌘↵
               </span>
             </>

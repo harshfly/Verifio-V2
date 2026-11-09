@@ -29,6 +29,14 @@
     <meta property="twitter:description" content="Sentence-level AI text detector powered by a 3-signal ML fusion engine. Built by Harsh Malviya." />
     <meta property="twitter:image" content="/logo.png" />
 
+    <!-- PWA & Mobile Web App Meta -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Verifio" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+
     <!-- Schema.org JSON-LD for AI Search & Rich Snippets -->
     <script type="application/ld+json">
     {
@@ -59,5 +67,12 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
   </body>
 </html>
