@@ -3,22 +3,31 @@
 @tailwind utilities;
 
 @layer base {
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; margin: 0; }
   html { scroll-behavior: smooth; }
   body {
-    background-color: #030712;
-    color: #f9fafb;
+    background-color: #ffffff;
+    color: #111111;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: #111827; }
-  ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+  ::selection {
+    background-color: #e0e7ff;
+    color: #312e81;
+  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
 }
 
-@layer utilities {
-  .animate-fade-in { animation: fadeIn 0.5s ease forwards; }
-  .animate-slide-up { animation: slideUp 0.5s ease forwards; }
-  .animate-scale-in { animation: scaleIn 0.3s ease forwards; }
+/* ── Animations (subtle, purposeful) ──────────────── */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeIn {
@@ -26,12 +35,20 @@
   to { opacity: 1; }
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.animate-fade-up {
+  animation: fadeUp 0.4s ease-out both;
 }
 
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out both;
 }
+
+/* Stagger delays for result items */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+.stagger-7 { animation-delay: 0.35s; }
+.stagger-8 { animation-delay: 0.4s; }
