@@ -90,7 +90,7 @@ export default function DownloadReport({ result }) {
     pdf.setTextColor(180, 180, 180);
     pdf.setFontSize(7);
     pdf.setFont("helvetica", "normal");
-    pdf.text("Verifio · 93.4% accuracy · 3-signal ML pipeline", margin, y);
+    pdf.text("Verifio V2 · Built by Harsh Malviya (harshhmalviya09@gmail.com) · 93.4% Accuracy", margin, y);
 
     pdf.save(`verifio-report-${Date.now()}.pdf`);
     generating.current = false;

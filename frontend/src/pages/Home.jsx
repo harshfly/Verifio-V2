@@ -218,9 +218,21 @@ export default function Home() {
 
       {/* ── Footer ──────────────────────────────────── */}
       <footer className="border-t border-neutral-200 py-6 px-5">
-        <div className="max-w-[720px] mx-auto flex items-center justify-between">
-          <img src="/logo.png?v=2" alt="Verifio" className="h-7 w-auto object-contain" />
-          <p className="text-[11px] text-neutral-500">AI Text Detection for Academic Integrity</p>
+        <div className="max-w-[720px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+          <div className="flex items-center gap-2">
+            <img src="/logo.png?v=2" alt="Verifio" className="h-7 w-auto object-contain" />
+            <span className="text-[12px] text-neutral-400">·</span>
+            <span className="text-[12px] text-neutral-600 font-medium">Built by <span className="text-black font-semibold">Harsh Malviya</span></span>
+          </div>
+          <div className="flex items-center gap-3 text-[11px] text-neutral-500">
+            <a href="mailto:harshhmalviya09@gmail.com" className="hover:text-orange-600 transition-colors">
+              harshhmalviya09@gmail.com
+            </a>
+            <span>·</span>
+            <a href="https://github.com/harshfly/Verifio-V2" target="_blank" rel="noreferrer" className="hover:text-black transition-colors">
+              GitHub
+            </a>
+          </div>
         </div>
       </footer>
     </div>
