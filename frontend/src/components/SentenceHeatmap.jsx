@@ -64,6 +64,18 @@ export default function SentenceHeatmap({ sentences }) {
 
               {/* Right: Confidence Score & Bar */}
               <div className="shrink-0 flex items-center gap-2 pt-0.5">
+                {item.confidence && item.confidence !== "high" && (
+                  <span
+                    className={`text-[9px] sm:text-[10px] font-medium px-1.5 py-0.5 rounded-md ${
+                      item.confidence === "low"
+                        ? "bg-neutral-100 text-neutral-400"
+                        : "bg-amber-50 text-amber-500"
+                    }`}
+                    title={item.confidence === "low" ? "Too short for reliable detection" : "Short sentence — moderate confidence"}
+                  >
+                    {item.confidence === "low" ? "Low conf." : "Med."}
+                  </span>
+                )}
                 <div className="w-10 md:w-14 bg-neutral-150 rounded-full h-[3px] overflow-hidden hidden xs:block">
                   <div
                     className={`h-full rounded-full ${config.bar} transition-all duration-500`}

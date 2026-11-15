@@ -16,12 +16,17 @@ class AnalyzeRequest(BaseModel):
 class SentenceResult(BaseModel):
     sentence: str = Field(..., description="The individual sentence.")
     score: float = Field(..., ge=0.0, le=1.0, description="AI probability score: 0=Human, 1=AI.")
+    confidence: str = Field(
+        default="high",
+        description="Confidence level: 'high', 'medium', or 'low'. Low confidence for very short sentences."
+    )
 
     class Config:
         json_schema_extra = {
             "example": {
                 "sentence": "The quick brown fox jumps over the lazy dog.",
-                "score": 0.12
+                "score": 0.12,
+                "confidence": "high"
             }
         }
 
@@ -34,8 +39,8 @@ class AnalyzeResponse(BaseModel):
         json_schema_extra = {
             "example": {
                 "sentences": [
-                    {"sentence": "The quick brown fox jumps over the lazy dog.", "score": 0.12},
-                    {"sentence": "This sentence was written by a human.", "score": 0.08}
+                    {"sentence": "The quick brown fox jumps over the lazy dog.", "score": 0.12, "confidence": "high"},
+                    {"sentence": "This sentence was written by a human.", "score": 0.08, "confidence": "high"}
                 ],
                 "overall_score": 0.10
             }

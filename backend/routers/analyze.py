@@ -10,6 +10,31 @@ nltk.download("punkt", quiet=True)
 
 router = APIRouter()
 
+# Confidence thresholds based on word count
+MIN_WORDS_HIGH_CONFIDENCE = 10
+MIN_WORDS_MEDIUM_CONFIDENCE = 5
+
+
+def _get_confidence(word_count: int) -> str:
+    """Determine confidence level based on sentence word count."""
+    if word_count >= MIN_WORDS_HIGH_CONFIDENCE:
+        return "high"
+    elif word_count >= MIN_WORDS_MEDIUM_CONFIDENCE:
+        return "medium"
+    else:
+        return "low"
+
+
+def _dampen_score(score: float, confidence: str) -> float:
+    """Pull low-confidence scores toward 0.5 (uncertain)."""
+    if confidence == "low":
+        # Strong dampening: 70% toward 0.5
+        return 0.5 + (score - 0.5) * 0.3
+    elif confidence == "medium":
+        # Mild dampening: 30% toward 0.5
+        return 0.5 + (score - 0.5) * 0.7
+    return score
+
 
 @router.post("/analyze", response_model=AnalyzeResponse)
 async def analyze_text(request: AnalyzeRequest):
@@ -31,21 +56,40 @@ async def analyze_text(request: AnalyzeRequest):
 
     results = []
     scores = []
+    weights = []  # weight each sentence by confidence for overall score
 
     for sentence in sentences:
-        if len(sentence.split()) < 3:
+        word_count = len(sentence.split())
+        confidence = _get_confidence(word_count)
+
+        if word_count < 3:
             # Too short to score reliably — treat as uncertain
             score = 0.5
+            confidence = "low"
         else:
             perplexity = compute_perplexity(sentence)
-            # Document-level length variance gives true context; fallback to single-sentence for standalone lines
+            # Document-level length variance gives true context
             burstiness = doc_burstiness if len(sentences) > 1 else compute_burstiness(sentence)
             ml_score = predict_score(sentence)
             score = fuse_signals(perplexity, burstiness, ml_score)
+            # Dampen score for short/unreliable sentences
+            score = _dampen_score(score, confidence)
 
         scores.append(score)
-        results.append(SentenceResult(sentence=sentence, score=round(score, 4)))
+        # Weight high-confidence sentences more in overall score
+        weight = {"high": 1.0, "medium": 0.6, "low": 0.3}.get(confidence, 1.0)
+        weights.append(weight)
 
-    overall_score = round(sum(scores) / len(scores), 4) if scores else 0.0
+        results.append(SentenceResult(
+            sentence=sentence,
+            score=round(score, 4),
+            confidence=confidence
+        ))
+
+    # Weighted average for overall score
+    if weights:
+        overall_score = round(sum(s * w for s, w in zip(scores, weights)) / sum(weights), 4)
+    else:
+        overall_score = 0.0
 
     return AnalyzeResponse(sentences=results, overall_score=overall_score)
