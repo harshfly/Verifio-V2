@@ -27,10 +27,35 @@ export default function DownloadReport({ result }) {
     pdf.text(`AI Text Detection Report · ${new Date().toLocaleDateString()}`, margin, 22);
     y = 40;
 
-    // Overall score
-    const percent = Math.round(result.overall_score * 100);
-    const label = scoreToLabel(result.overall_score);
-    pdf.setTextColor(17, 17, 17);
+    // Overall score & dominant verdict
+    const totalSentences = result.sentences.length;
+    const aiCount = result.sentences.filter((s) => s.score >= 0.65).length;
+    const humanCount = result.sentences.filter((s) => s.score < 0.35).length;
+    const uncertainCount = totalSentences - aiCount - humanCount;
+
+    const aiPct = totalSentences > 0 ? Math.round((aiCount / totalSentences) * 100) : 0;
+    const humanPct = totalSentences > 0 ? Math.round((humanCount / totalSentences) * 100) : 0;
+    const uncPct = totalSentences > 0 ? Math.round((uncertainCount / totalSentences) * 100) : 0;
+
+    let percent = aiPct;
+    let label = "Likely AI-Generated";
+    let scoreColor = [220, 38, 38];
+
+    if (humanPct >= aiPct && humanPct >= uncPct) {
+      percent = humanPct;
+      label = "Likely Human";
+      scoreColor = [5, 150, 105];
+    } else if (aiPct >= humanPct && aiPct >= uncPct) {
+      percent = aiPct;
+      label = "Likely AI-Generated";
+      scoreColor = [220, 38, 38];
+    } else {
+      percent = uncPct;
+      label = "Uncertain / Mixed";
+      scoreColor = [217, 119, 6];
+    }
+
+    pdf.setTextColor(...scoreColor);
     pdf.setFontSize(32);
     pdf.setFont("helvetica", "bold");
     pdf.text(`${percent}%`, margin, y + 5);

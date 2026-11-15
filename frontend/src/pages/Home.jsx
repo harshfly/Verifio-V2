@@ -29,9 +29,17 @@ export default function Home() {
     }
   };
 
+  const totalSentences = result?.sentences.length || 0;
   const aiCount = result?.sentences.filter(s => s.score >= 0.65).length || 0;
   const humanCount = result?.sentences.filter(s => s.score < 0.35).length || 0;
   const uncertainCount = result?.sentences.filter(s => s.score >= 0.35 && s.score < 0.65).length || 0;
+
+  const aiPct = totalSentences > 0 ? Math.round((aiCount / totalSentences) * 100) : 0;
+  const humanPct = totalSentences > 0 ? Math.round((humanCount / totalSentences) * 100) : 0;
+  const uncertainPct = totalSentences > 0 ? Math.round((uncertainCount / totalSentences) * 100) : 0;
+
+  const isHumanDominant = humanPct >= aiPct && humanPct >= uncertainPct;
+  const isAiDominant = aiPct > humanPct && aiPct >= uncertainPct;
 
   return (
     <div className="min-h-screen relative flex flex-col antialiased selection:bg-orange-100 selection:text-orange-900 w-full overflow-x-hidden">
@@ -198,7 +206,13 @@ export default function Home() {
                 <p className="text-[10px] sm:text-[12px] font-bold text-orange-500 uppercase tracking-[0.15em] mb-1">
                   Document Verdict
                 </p>
-                <ScoreBadge score={result.overall_score} />
+                <ScoreBadge
+                  score={result.overall_score}
+                  aiCount={aiCount}
+                  uncertainCount={uncertainCount}
+                  humanCount={humanCount}
+                  total={totalSentences}
+                />
               </div>
 
               <div className="flex items-center gap-2 self-start sm:self-auto sm:mt-1">
@@ -216,9 +230,9 @@ export default function Home() {
             {/* Stat Summary Cards */}
             <div className="grid grid-cols-3 gap-px bg-neutral-200/80 rounded-xl sm:rounded-2xl overflow-hidden shadow-2xs border border-neutral-200/80">
               {[
-                { label: "AI Flagged", value: aiCount, total: result.sentences.length, color: "text-red-600" },
-                { label: "Uncertain", value: uncertainCount, total: result.sentences.length, color: "text-orange-500" },
-                { label: "Human", value: humanCount, total: result.sentences.length, color: "text-green-600" },
+                { label: "AI Flagged", value: aiCount, total: totalSentences, color: "text-red-600" },
+                { label: "Uncertain", value: uncertainCount, total: totalSentences, color: "text-orange-500" },
+                { label: "Human", value: humanCount, total: totalSentences, color: "text-green-600" },
               ].map((s) => (
                 <div key={s.label} className="bg-white p-2.5 sm:p-4 text-center">
                   <p className={`text-[18px] xs:text-[22px] sm:text-[28px] font-bold tabular-nums tracking-tight ${s.color}`}>
@@ -235,27 +249,27 @@ export default function Home() {
             </div>
 
             {/* Diagnostic Summary Callout */}
-            {result.overall_score >= 0.65 && (
+            {isAiDominant && (
               <div className="pl-3 sm:pl-3.5 border-l-2 border-red-500 bg-red-50/50 py-2 sm:py-2.5 pr-3 rounded-r-lg">
                 <p className="text-[12px] sm:text-[13px] text-neutral-700 leading-relaxed">
-                  <span className="font-semibold text-red-600">High AI probability ({Math.round(result.overall_score * 100)}%).</span>{" "}
-                  {aiCount} of {result.sentences.length} sentences exhibit hallmark synthetic language patterns — elevated lexical formality, uniform sentence length, and low burstiness.
+                  <span className="font-semibold text-red-600">High AI probability ({aiPct}%).</span>{" "}
+                  {aiCount} of {totalSentences} sentences exhibit hallmark synthetic language patterns — elevated lexical formality, uniform sentence length, and low burstiness.
                 </p>
               </div>
             )}
-            {result.overall_score >= 0.35 && result.overall_score < 0.65 && (
+            {!isAiDominant && !isHumanDominant && (
               <div className="pl-3 sm:pl-3.5 border-l-2 border-orange-400 bg-orange-50/50 py-2 sm:py-2.5 pr-3 rounded-r-lg">
                 <p className="text-[12px] sm:text-[13px] text-neutral-700 leading-relaxed">
-                  <span className="font-semibold text-orange-600">Mixed signals ({Math.round(result.overall_score * 100)}%).</span>{" "}
-                  Detected {aiCount} AI-flagged and {humanCount} human sentences. Typical of co-authored, AI-assisted, or heavily paraphrased student work.
+                  <span className="font-semibold text-orange-600">Mixed / Uncertain signals ({uncertainPct}%).</span>{" "}
+                  Detected {aiCount} AI-flagged, {uncertainCount} uncertain, and {humanCount} human sentences. Typical of co-authored, AI-assisted, or heavily paraphrased student work.
                 </p>
               </div>
             )}
-            {result.overall_score < 0.35 && (
+            {isHumanDominant && (
               <div className="pl-3 sm:pl-3.5 border-l-2 border-green-500 bg-green-50/50 py-2 sm:py-2.5 pr-3 rounded-r-lg">
                 <p className="text-[12px] sm:text-[13px] text-neutral-700 leading-relaxed">
-                  <span className="font-semibold text-green-600">Likely human-written ({Math.round(result.overall_score * 100)}%).</span>{" "}
-                  {humanCount} of {result.sentences.length} sentences reflect organic linguistic structure, conversational filler cadence, and natural variation.
+                  <span className="font-semibold text-green-600">Likely human-written ({humanPct}%).</span>{" "}
+                  {humanCount} of {totalSentences} sentences reflect organic linguistic structure, conversational filler cadence, and natural variation in sentence length.
                 </p>
               </div>
             )}
