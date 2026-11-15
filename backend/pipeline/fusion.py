@@ -1,21 +1,16 @@
 """
 fusion.py — Combines ML classifier, perplexity, and burstiness signals.
-
-Perplexity interpretation (entropy-based):
-- LOW (~60-120): More predictable → leans AI
-- MEDIUM (~120-150): Ambiguous zone
-- HIGH (~150-200+): More varied → leans human
 """
 
 WEIGHTS = {
-    "ml": 0.55,
-    "perplexity": 0.30,
-    "burstiness": 0.15,
+    "ml": 0.70,
+    "perplexity": 0.20,
+    "burstiness": 0.10,
 }
 
-# Perplexity ranges (calibrated for entropy-based proxy)
-PERPLEXITY_AI_THRESHOLD = 100.0     # Below this → likely AI
-PERPLEXITY_HUMAN_THRESHOLD = 170.0  # Above this → likely human
+# Perplexity ranges
+PERPLEXITY_AI_THRESHOLD = 90.0     # Below this → likely AI
+PERPLEXITY_HUMAN_THRESHOLD = 160.0  # Above this → likely human
 
 
 def normalize_perplexity(perplexity: float) -> float:
